@@ -1,0 +1,22 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "*.py",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/",
+        "dest": "index.py",
+        "methods": ["GET"]
+      },
+      {
+        "src": "/gerar-apostas",
+        "dest": "index.py",
+        "methods": ["POST"]
+      }    
+    ]
+  }
+  

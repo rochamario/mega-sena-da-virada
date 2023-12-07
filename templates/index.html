@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Mega-Sena da Virada</title>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 40px;
+}
+
+#container {
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    /* color: #4CAF50; */
+    color: #000204;
+}
+
+input, button {
+    margin: 10px 0;
+    padding: 10px;
+    width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#resultado {
+    margin-top: 20px;
+}
+
+#imagem-central {
+    margin: 10px 0;
+    width: 800px; /* Ajuste a largura conforme necessário */ 
+    height: auto;
+}
+
+#descricao {
+    margin-top: 10px;
+}
+</style>
+</head> 
+<body>
+    <div id="container">
+        <h1>Gerador de Apostas da Mega-Sena da Virada</h1>
+        <img id="imagem-central" src="https://github.com/rochamario/mega-sena-da-virada/raw/main/static/megasena.png" alt="Imagem Central">
+        <div>
+            <label for="num_apostas">Número de Apostas:</label>
+            <input type="number" id="num_apostas" name="num_apostas" min="1">
+        </div>
+        <div>
+            <label for="num_numeros">Números por Aposta:</label>
+            <input type="number" id="num_numeros" name="num_numeros" min="6" max="15">
+        </div>
+
+        <p id="descricao">
+            Este gerador de apostas gera apostas aleatórias para a Mega-Sena da virada com base nos números que mais foram sorteados na história.
+        </p>
+        
+        <button onclick="gerarApostas()">Gerar Apostas</button>
+        <div id="resultado"></div>
+    </div>
+
+    <div id="footer">
+        Site criado por <a href="https://github.com/rochamario" target="_blank">Mario Rocha</a>
+    </div>
+    
+    <script>
+        function gerarApostas() {
+            let num_apostas = document.getElementById('num_apostas').value;
+            let num_numeros = document.getElementById('num_numeros').value;
+            
+            fetch('/gerar-apostas', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({num_apostas: num_apostas, num_numeros: num_numeros}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                let resultado = document.getElementById('resultado');
+                resultado.innerHTML = '<h2>Apostas Geradas:</h2>';
+                data.forEach(aposta => {
+                    resultado.innerHTML += `<p>${aposta.join(', ')}</p>`;
+                });
+            });
+        }
+    </script>
+</body>
+</html>
